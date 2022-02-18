@@ -1,4 +1,6 @@
 // run w/ node server.js localhost:5000/app
+// OR run the server in one terminal
+// use ANOTHER terminal and curl to interact w/ server
 
 const express = require('express')
 const app = express()
