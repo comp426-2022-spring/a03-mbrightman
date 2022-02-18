@@ -12,6 +12,10 @@ const server = app.listen(port, () => {
     console.log(`App is running on port ${port}`)
 })
 
+function coinFlip() {
+    return (Math.floor(Math.random() * 2) == 0) ? 'heads' : 'tails';
+  }
+
 // default endpoint
 app.get('/app', (req,res) => {
     res.status(200).end('OK')
@@ -21,6 +25,11 @@ app.get('/app', (req,res) => {
 // allows you to go to that endpoint and replace :number with something else
 app.get('/app/echo/:number', (req, res) => {
     res.status(200).json({ 'message': req.params.number })
+})
+
+app.get('/app/flip', (req, res) => {
+    var flip = coinFlip()
+    res.status(200).json({ 'flip': flip })
 })
 
 app.use(function(req, res) {
