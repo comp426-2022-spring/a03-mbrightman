@@ -10,10 +10,19 @@ const server = app.listen(port, () => {
     console.log(`App is running on port ${port}`)
 })
 
+function coinFlip() {
+    return (Math.floor(Math.random() * 2) == 0) ? 'heads' : 'tails';
+  }
+
 // default endpoint
 app.get('/app', (req,res) => {
     res.status(200).end('OK')
     res.type('text/plain')
+})
+
+app.get('/app/flip', (req, res) => {
+    var flip = coinFlip()
+    res.status(200).json({ 'flip': flip })
 })
 
 app.use(function(req, res) {
