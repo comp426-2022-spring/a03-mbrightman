@@ -17,6 +17,10 @@ const server = app.listen(port, () => {
     console.log(`App is running on port ${port}`)
 })
 
+/*
+    COIN FLIP FUNCTIONS
+*/
+
 function coinFlip() {
     return (Math.floor(Math.random() * 2) == 0) ? 'heads' : 'tails';
 }
@@ -38,6 +42,58 @@ function flipACoin(call) {
     }
 }
 
+function coinFlips(flips) {
+    var a = []
+    for (let i = 0; i < flips; i++) {
+      a[i] = (Math.floor(Math.random() * 2) == 0) ? 'heads' : 'tails';
+    }
+    return a;
+}
+  
+  /** Count multiple flips
+   * 
+   * Write a function that accepts an array consisting of "heads" or "tails" 
+   * (e.g. the results of your `coinFlips()` function) and counts each, returning 
+   * an object containing the number of each.
+   * 
+   * example: conutFlips(['heads', 'heads','heads', 'tails','heads', 'tails','tails', 'heads','tails', 'heads'])
+   * { tails: 5, heads: 5 }
+   * 
+   * @param {string[]} array 
+   * @returns {{ heads: number, tails: number }}
+   */
+  
+function countFlips(array) {
+    var tCounter = 0
+    var hCounter = 0
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] == 'heads') {
+        hCounter++
+      } else {
+        tCounter++
+      }
+    }
+  
+    if (tCounter === 0) {
+      return {
+        'heads': hCounter
+      }
+    } else if (hCounter === 0) {
+      return {
+        'tails': tCounter
+      }
+    } else {
+      return {
+        'tails': tCounter,
+        'heads': hCounter
+      }
+    }
+}
+
+/*
+    END FLIP FUNCS
+*/
+
 // default endpoint
 app.get('/app', (req,res) => {
     res.status(200).end('OK')
@@ -46,7 +102,9 @@ app.get('/app', (req,res) => {
 
 // allows you to go to that endpoint and replace :number with something else
 app.get('/app/flips/:number', (req, res) => {
-    res.status(200).json({ 'message': req.params.number })
+    flips_array = coinFlips(req.params.number)
+    flips_summary = countFlips(flips_array)
+    res.status(200).json({ 'raw': flips_array, 'summary': flips_summary })
 })
 
 app.get('/app/flip', (req, res) => {
